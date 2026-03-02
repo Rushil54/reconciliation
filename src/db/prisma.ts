@@ -1,4 +1,5 @@
 import path from "path";
+import fs from "fs";
 import sqlite3 from "sqlite3";
 import { open, type Database } from "sqlite";
 
@@ -20,8 +21,21 @@ export async function getDb(): Promise<Database> {
     return dbInstance;
   }
 
+  const dbPath = resolveDatabasePath();
+
+  // Ensure parent directory exists (useful for container deploy targets like /var/data).
+  try {
+    fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+  } catch (error) {
+    throw new Error(
+      `Failed to prepare database directory for ${dbPath}. Check DATABASE_URL and disk mount. ${
+        error instanceof Error ? error.message : ""
+      }`,
+    );
+  }
+
   dbInstance = await open({
-    filename: resolveDatabasePath(),
+    filename: dbPath,
     driver: sqlite3.Database,
   });
 
