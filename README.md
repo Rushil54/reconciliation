@@ -54,13 +54,6 @@ npm test
 ```
 Tests run against `.env.test` (`file:./test.db`).
 
-## Health Check
-- `GET /health`
-
-## Deploy
-- You can deploy this as-is on a single-instance service with persistent disk.
-- If your host does not guarantee persistent disk, switch to Postgres in production.
-
 ## Hosted Endpoint
-- Add your deployed URL here:
-  - `https://<your-app-domain>/identify`
+https://reconciliation-1.onrender.com
+
